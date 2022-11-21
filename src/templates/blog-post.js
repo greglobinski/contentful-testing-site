@@ -23,27 +23,22 @@ class BlogPostTemplate extends React.Component {
     )
     const plainTextBody = documentToPlainTextString(JSON.parse(post.body.raw))
     const { minutes: timeToRead } = readingTime(plainTextBody)
-    
+
     const options = {
       renderNode: {
         [BLOCKS.EMBEDDED_ASSET]: (node) => {
-        const { gatsbyImage, description } = node.data.target
-        return (
-           <GatsbyImage
-              image={getImage(gatsbyImage)}
-              alt={description}
-           />
-         )
+          const { gatsbyImage, description } = node.data.target
+          return <GatsbyImage image={getImage(gatsbyImage)} alt={description} />
         },
       },
-    };
+    }
 
     return (
       <Layout location={this.props.location}>
         <Seo
           title={post.title}
           description={plainTextDescription}
-          image={`http:${post.heroImage.resize.src}`}
+          // image={`http:${post.heroImage.resize.src}`}
         />
         <Hero
           image={post.heroImage?.gatsbyImage}
@@ -104,15 +99,8 @@ export const pageQuery = graphql`
       }
       publishDate(formatString: "MMMM Do, YYYY")
       rawDate: publishDate
-      heroImage {
-        gatsbyImage(layout: FULL_WIDTH, placeholder: BLURRED, width: 1280)
-        resize(height: 630, width: 1200) {
-          src
-        }
-      }
       body {
         raw
-        
       }
       tags
       description {
